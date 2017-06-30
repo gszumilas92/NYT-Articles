@@ -1,0 +1,23 @@
+input {
+    color: #000;
+}
+
+.site-heading button {
+    margin-top: 20px;   
+    color: #000;
+}
+
+.site-heading input,
+.site-heading label {
+    display: block;
+    margin: 0 auto;
+}
+
+.site-heading {
+    padding: 100px;
+}
+
+@media only screen and (min-width: 768px) {
+.intro-header .page-heading, .intro-header .post-heading, .intro-header .site-heading {
+    padding: 100px 0;
+}
