@@ -26,11 +26,7 @@ function confirmEnter(textAreaID, buttonID) {
 
 function isDateCorrect(date) {
     date = fixedDate(date);
-    if(!/[^0-9]/g.test(date) && date.length===8) {
-        return true;
-    } else {
-        return false;
-    }
+    return !/[^0-9]/g.test(date) && date.length===8;
 };
 
 function removeChildElementsByID(elementID) {
@@ -41,34 +37,28 @@ function removeChildElementsByID(elementID) {
 }
 
 function filterArticles(dateFrom, dateTo) {
-    if(dateFrom>dateTo) {
+    if (!isDateCorrect(dateFrom) || !isDateCorrect(dateTo)) {
+        alert("Please provide a correct date format! Correct date formats are: YYYY/MM/DD, YYYY|MM|DD, YYYY.MM.DD, also correct dates doesnt include any letters!");        
+    } else if(dateFrom>dateTo) {
         alert("'From date' can't be later than 'To date'")
-    } else if (isDateCorrect(dateFrom) && isDateCorrect(dateTo)){
-
+    } else {
         //Remove old DOM elements
         removeChildElementsByID("article");
-
         //Fetch Data
         this.filterParam = "&begin_date="+fixedDate(dateFrom)+"&end_date="+fixedDate(dateTo);
-        fetchData(this.url+this.filterParam);
-
-    } else {
-        alert("Please provide a correct date format! Correct date formats are: YYYY/MM/DD, YYYY|MM|DD, YYYY.MM.DD, also correct dates doesnt include any letters!");
+        fetchData(this.url+this.filterParam);       
     }
 };
 
-function createPostElement(article){
-    
+function createPostElement(article){    
     //Creating Elements
     let div = createNode('div'), 
         a = createNode('a'),
         h2 = createNode('h2'),
         hr = createNode('hr')
-
     //Adding Style Classes
     div.className="post-preview"
     h2.className="post-title"
-
     //Create Click Attribution
     let href = document.createAttribute("href");
     let target = document.createAttribute("target");
@@ -76,7 +66,6 @@ function createPostElement(article){
     target.value ="_blank";
     a.setAttributeNode(href);
     a.setAttributeNode(target);
-
     //Appending Elements
     append(h2, document.createTextNode(`${article.headline.main}`));
     append(a, h2);
@@ -87,7 +76,7 @@ function createPostElement(article){
 
 function fetchData(url){
     fetch(url)
-    .then((resp) => resp.json()) // Transform the data into json
+    .then((resp) => resp.json())
     .then(function(data) {
         let article = data.response.docs;
         return article.map(function(article) {
