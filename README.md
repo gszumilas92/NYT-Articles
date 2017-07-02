@@ -1,3 +1,5 @@
+The goal of application was to pull an articles from New York Times API and sort them within a fixed dates.
+
 Application instructions:
 
 Step 1: Put an interesting dates for you on empty fields.
